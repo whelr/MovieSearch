@@ -7,7 +7,7 @@ APIkey = "848c2ef8"
 items = []
 count = 0 #Create variable for counting items scraped.
 
-for page in range(1, 101):
+for page in range(1,101):
 	print("Scraping page: %s" % (page))
 	movies = urllib.request.urlopen("https://www.imdb.com/list/ls057823854/?sort=list_order,asc&st_dt=&mode=detail&page=%s" % (page))
 	soup = BeautifulSoup(movies, 'html.parser')
@@ -32,16 +32,20 @@ for item in items:
 		continue
 	
 	body = BeautifulSoup(page, 'html.parser').getText()
-	soup_dict = json.loads(body)
+	data = json.loads(body)
 
-	title = (soup_dict['Title'].replace("\"", "\"\"")) 
-	year = (soup_dict['Year'].replace("\"", "\"\""))
-	rated = (soup_dict['Rated'].replace("\"", "\"\""))
-	director = (soup_dict['Director'].replace("\"", "\"\""))
-	actors = (soup_dict['Actors'].replace("\"", "\"\""))
-	plot = (soup_dict['Plot'].replace("\"", "\"\""))
-	imdbRating = (soup_dict['imdbRating'].replace("\"", "\"\""))
-	poster = (soup_dict['Poster'].replace("\"", "\"\""))
+	if('Title' not in data):
+		print("No response, skipped %s" % (item))
+		continue
+
+	title = (data['Title'].replace("\"", "\"\"")) 
+	year = (data['Year'].replace("\"", "\"\""))
+	rated = (data['Rated'].replace("\"", "\"\""))
+	director = (data['Director'].replace("\"", "\"\""))
+	actors = (data['Actors'].replace("\"", "\"\""))
+	plot = (data['Plot'].replace("\"", "\"\""))
+	imdbRating = (data['imdbRating'].replace("\"", "\"\""))
+	poster = (data['Poster'].replace("\"", "\"\""))
 	url = "https://www.imdb.com/title/%s" % (item)
 
 	itemInfo = ("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"") % (item,title,year,rated,director,actors,plot,imdbRating,poster,url)
