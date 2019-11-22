@@ -5,39 +5,16 @@
 
 <div class="jumbotron text-center">
         <div class="container text-center">
-                <h1><a href="{{ url_for('home') }}" style="color: black; text-decoration: none;">Movie Search Engine</a></h1><br>
-                <form method="get" action="{{ url_for('search') }}">
-                        <div class="form-inline">
-                                <input type="text" class="form-control" placeholder="Search movie..." name="searchterm", autocomplete="off">
-                                <button class="btn btn-default">Search</button>
+                <form method="get" action="{{ url_for('results') }}">
+                        <div class="form">
+							<input type="text" name="query" placeholder="Query?" /><br />
+							<input type="text" name='afterYear' placeholder="Min Year">
+							<input type="text" name='beforeYear' placeholder="Max Year"/>
+							<input type="text" name='withDir'/ placeholder="Director">
+                            <button class="btn btn-default">Search</button>
                         </div>
                 </form>
         </div>
 </div>
-<!--
-<div class="jumbotron text-center">
-        <div id="slider" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                        <li class="active" data-target="#slider data-slide-to="0"> </li>
-                        <li data-target="#slider" data-slide-to="1"> </li>
-                        <li data-target="#slider" data-slide-to="2"> </li>
-                </ol>
-                <div class="carousel-inner">
-                        <div class="item active">
-                                <img class="d-block" src="{{ url_for('static', filename='cover1.jpg') }}" alt="First slide" width="200">
-                                
-                        </div>
-                        <div class="item">                      
-        
-                                <img class="d-block" src="{{ url_for('static', filename='cover2.jpg') }}" alt="Second slide" width="200">
-                        </div>
-                        <div class="item">                      
-        
-                                <img class="d-block" src="{{ url_for('static', filename='cover3.jpg') }}" alt="Third slide" width="200">
-                        </div>
-                </div>
-                <a href="#slider" class="carousel-control left" data-slide="prev"> </a>
-                <a href="#slider" class="carousel-control right" data-slide="next"> </a>
-        </div>
-</div> -->
+
 {% endblock %}
