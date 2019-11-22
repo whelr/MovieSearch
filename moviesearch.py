@@ -16,11 +16,6 @@ def index():
 	print("Someone is at the home page.")
 	return render_template('welcome_page.html')
 
-@app.route('/my-link/')
-def my_link():
-	print('I got clicked!')
-	return 'Click.'
-
 @app.route('/results/', methods=['GET', 'POST'])
 def results():
 	global mySearcher
@@ -33,11 +28,13 @@ def results():
 	afterYear = data.get('afterYear')
 	beforeYear = data.get('beforeYear')
 	withDir = data.get('withDir')
+	if(afterYear == ""):
+		afterYear = 1
+	if(beforeYear == ""):
+		beforeYear = 99999
 	titles, year, director = mySearcher.search(query, afterYear, beforeYear, withDir)
-	print("You searched for: " + query)
-	print("The flags are: " + afterYear, beforeYear, withDir)
  
-	return render_template('results.html', query=query, results=zip(titles, year, director))
+	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(titles, year, director))
 
 class movieSearcher(object):
 
@@ -57,11 +54,10 @@ class movieSearcher(object):
 			# Get results of search with query, if no results state that.
 			for r in results:
 				# Take the results and make sure they fit the advanced search flags
-				#if((int(r["year"]) > int(afterYear)) and (int(r["year"]) < int(beforeYear)) and (withDir in r["director"])):
-				print(r["title"],r["year"],r["director"])
-				title.append(r["title"])
-				year.append(r["year"])
-				director.append(r["director"])
+				if((int(r["year"]) > int(afterYear)) and (int(r["year"]) < int(beforeYear)) and (withDir in r["director"])):
+					title.append(r["title"])
+					year.append(r["year"])
+					director.append(r["director"])
 			return title, year, director
 
 	def index(self):
