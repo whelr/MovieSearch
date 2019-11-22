@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href= "{{ url_for('static',filename='styles/main.css') }}">
-		<title>Welcome to the sample!!</title>
-	</head>
+{% extends "bootstrap/base.html" %}
+{% block title %}Movie Search Engine{% endblock %}
+ 
+{% block content %}
 
-	<body>
-		<form method="get" action="{{ url_for('results') }}">
-			<label for="query">What do you want to search for:</label>
-			<input type="text" name="query" /><br />
-			<input type="text" name='beforeYear'/>
-			<input type="text" name='afterYear'/>
-			<input type="text" name='withDir'/>
-			<input type="submit" value="Search" />
-		</form>	
+<div class="jumbotron text-center">
+        <div class="container text-center">
+                <form method="get" action="{{ url_for('results') }}">
+                        <div class="form">
+							<input type="text" name="query" placeholder="Query?" /><br />
+							<input type="text" name='afterYear' placeholder="Min Year">
+							<input type="text" name='beforeYear' placeholder="Max Year"/>
+							<input type="text" name='withDir'/ placeholder="Director">
+                            <button class="btn btn-default">Search</button>
+                        </div>
+                </form>
+        </div>
+</div>
 
-		<a href="/my-link/">Hello World</a>
-	</body>	
-</html>
+{% endblock %}
