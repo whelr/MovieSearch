@@ -1,0 +1,45 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal">
+		&times;
+	</button>
+	<h2>{{ movie[0] }}</h2>
+</div>
+
+<!-- Modal window for displaying movie details -->
+<div class="modal-body">	
+	<table class="table table-borderless" border="0">				
+		<tr>			
+			<td>
+				<div class="box">
+					<a href="#"><img class="d-block" src="{{ movie[1] }}" alt="First slide" width="200" height="285"></a>
+				</div>				
+			</td>
+			<td>								
+				<h5>Director: {{ movie[2]}} </h5>
+				<h5>Writer: {{ movie[3] }}</h5>
+				<!--<h5>Cast: {% for actor in movie[4].split(',') %}
+					{{ actor }}
+
+					{% endfor %}
+				</h5>-->
+				<h5>Year: {{ movie[5]}}</h5>
+				<h5>Runtime: {{ movie[6]}} minutes </h5>
+				<h5>Rating: {{ movie[7]}}</h5>
+				<h5>Genre: {{ movie[8]}}</h5>
+				<h5>Studio: {{ movie[9]}}</h5>			
+			</td>				
+		</tr>	
+	</table>
+	<table class="table table-bordered">
+		<tr>
+			<td>
+				<h4>Plot Summary</h4>
+				<p>{{ movie[10] }}</p>
+			</td>
+		</tr>
+	</table>	
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>	
+</div>
