@@ -13,7 +13,6 @@ from whoosh.qparser import QueryParser
 app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
-	print("Someone is at the home page.")
 	return render_template('welcome_page.html')
 
 @app.route('/results/', methods=['GET', 'POST'])
@@ -28,11 +27,12 @@ def results():
 	afterYear = data.get('afterYear')
 	beforeYear = data.get('beforeYear')
 	withDir = data.get('withDir')
+	fuzzycheck = data.get('fuzzycheck')
 	if(afterYear == ""):
 		afterYear = 1
 	if(beforeYear == ""):
 		beforeYear = 99999
-	titles, year, director = mySearcher.search(query, afterYear, beforeYear, withDir)
+	titles, year, director = mySearcher.search(query, afterYear, beforeYear, withDir, fuzzycheck)
  
 	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(titles, year, director))
 
@@ -41,8 +41,10 @@ class movieSearcher(object):
 	def __init__(self):
 		super(movieSearcher, self).__init__()
 
-	def search(self, str, afterYear, beforeYear, withDir):
+	def search(self, str, afterYear, beforeYear, withDir, fuzzycheck):
 		# Open index to search, and create a Query Parser index to search name and descriptions.
+		if(fuzzycheck == "checked"):
+			print("fuzzycheck is checked")
 		title = list()
 		year = list()
 		director = list()
