@@ -1,0 +1,55 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal">
+		&times;
+	</button>
+	<h2>Advance Search</h2>
+</div>
+
+<!-- Modal window for user options (sorting and filtering) -->
+<form method="get" action = {{ url_for('results') }}	
+	<div class="modal-body">
+		<table class="table table-borderless" border="0">
+			<thead>
+				<tr>
+					<th>Sort</th>
+					<th>Filter</th>				
+				</tr>				
+			
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<div class="radio">
+						  <label><input type="radio" name="optradio" value="title">Title</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="optradio" value="year">Year</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="optradio" value="score">Score</label>
+						</div>				
+					</td>
+					<td>								
+						<div class="radio">
+						  <label><input type="radio" name="filter" value="score">Score</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="filter" value="year">Year</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" name="filter" value="runtime">Runtime</label>
+						<div class = "input">
+							<label><input type="number" name="filterLow" placeholder="minimum"></label>
+							<label><input type="number" name="filterHigh" placeholder="maximum"></label>
+						</div>			
+					</td>				
+				</tr>
+			</tbody>				
+		</table>	
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>	
+	</div>
+</form>
