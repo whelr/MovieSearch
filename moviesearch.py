@@ -2,6 +2,8 @@ import os
 import csv
 from flask import Flask, render_template, url_for, request
 from flask_bootstrap import Bootstrap
+from flask import Blueprint
+from flask_paginate import Pagination, get_page_parameter
 import whoosh
 from whoosh.index import create_in
 from whoosh.index import open_dir
@@ -35,9 +37,26 @@ def results():
 		afterYear = 1
 	if(beforeYear == ""):
 		beforeYear = 99999
-	poster, titles, year, director = mySearcher.search(query, afterYear, beforeYear, withDir, fuzzycheck)
- 
-	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(poster, titles, year, director))
+	movies = mySearcher.search(query, afterYear, beforeYear, withDir, fuzzycheck)
+	r_size = sum(1 for _ in movies)
+
+	page = request.args.get(get_page_parameter(), type=int, default=1)
+	pagination = Pagination(page=page, total=r_size, record_name='Movie', per_page=10)
+
+
+#	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(poster, url, titles, year, director))
+	return render_template('results.html',
+                           movies=movies,
+                           pagination=pagination,
+                           )
+
+class Movie:
+    def __init__(self, poster, url, title, year, director):
+        self.poster = poster
+        self.url = url
+        self.title = title
+        self.year = year
+        self.director = director
 
 class movieSearcher(object):
 
@@ -48,10 +67,8 @@ class movieSearcher(object):
 		# Open index to search, and create a Query Parser index to search name and descriptions.
 		if(fuzzycheck == "checked"):
 			print("fuzzycheck is checked")
-		poster = list()
-		title = list()
-		year = list()
-		director = list()
+
+		movies = list()
 		with self.indexer.searcher() as s:
 			parser = qparser.QueryParser("title", schema=self.indexer.schema)
 			parser.add_plugin(qparser.FuzzyTermPlugin())
@@ -64,14 +81,11 @@ class movieSearcher(object):
 			for r in results:
 				# Take the results and make sure they fit the advanced search flags
 				if((int(r["year"]) > int(afterYear)) and (int(r["year"]) < int(beforeYear)) and (withDir in r["director"])):
-					if(r["poster"] == "N/A"):
-						poster.append("https://lascrucesfilmfest.com/wp-content/uploads/2018/01/no-poster-available-737x1024.jpg")
-					else:
-						poster.append(r["poster"])
-					title.append(r["title"])
-					year.append(r["year"])
-					director.append(r["director"])
-			return poster, title, year, director
+					pster = "https://lascrucesfilmfest.com/wp-content/uploads/2018/01/no-poster-available-737x1024.jpg"
+					if(r["poster"] != "N/A"):
+						pster = (r["poster"])
+					movies.append(Movie(pster, r["url"], r["title"], r["year"], r["director"]))
+			return movies
 
 	def index(self):
 		schema = Schema(path=ID(stored=True), title=TEXT(stored=True), year=TEXT(stored=True), rated=TEXT(stored=True), director=TEXT(stored=True), actors=TEXT(stored=True), plot=TEXT(stored=True), imdb=TEXT(stored=True), poster=TEXT(stored=True), url=TEXT(stored=True))
