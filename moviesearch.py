@@ -41,10 +41,8 @@ def results():
 	r_size = sum(1 for _ in movies)
 
 	page = request.args.get(get_page_parameter(), type=int, default=1)
-	pagination = Pagination(page=page, total=r_size, record_name='Movie', per_page=10)
+	pagination = Pagination(page=page, total=r_size, record_name='movies', per_page=10)
 
-
-#	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(poster, url, titles, year, director))
 	return render_template('results.html',
                            movies=movies,
                            pagination=pagination,
@@ -92,7 +90,7 @@ class movieSearcher(object):
 		indexer = create_in("index", schema)
 		writer = indexer.writer()
 
-		with open('moviedata.csv') as csv_file:
+		with open('moviedata.csv', encoding='utf-8') as csv_file:
 			# Load the csv file
 			csv_reader = csv.reader(csv_file, delimiter=',')
 			skip = 0

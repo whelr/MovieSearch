@@ -25,14 +25,17 @@
     </tr>
   </thead>
   <tbody>
-    {% for Movie in movies %}
+    {% for i in range(pagination.page * 10 - 10, pagination.page * 10) %}
 	</tr>
-      <td>{{loop.index + pagination.skip }}</td>
-      <td><img src={{Movie.poster}} alt="" border=3 height=129 width=70></img></td>
-      <td>{{Movie.title}}</td>
-      <td>{{Movie.year}}</td>
-      <td>{{Movie.director}}</td>
-      <td><a href={{Movie.url}}>[IMDB]</a></td>
+      {% if i <= r_size - 1 %}
+        <td>{{loop.index + pagination.skip }}</td>
+        <td><img src={{movies[loop.index + pagination.skip -1].poster}} alt="" border=3 height=129 width=70></img></td>
+       <td>{{movies[loop.index + pagination.skip -1].title}}</td>
+        <td>{{movies[loop.index + pagination.skip -1].year}}</td>
+        <td>{{movies[loop.index + pagination.skip -1].director}}</td>
+        <td>{{i}}</td>
+        <td><a href={{movies[loop.index + pagination.skip -1].url}}>[IMDB]</a></td>
+        {% endif %}
     </tr>
     {% endfor %}
   </tbody>
