@@ -1,3 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>  
+
+  div {
+    margin-top: 20px;
+  }
+
+  table {
+    margin: .3em;
+    width: 200px;
+  }
+  
+  th {
+    padding: .2em;
+  }
+
+  .pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+  }
+
+  .pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+  }
+</style>
+</head>
+<body>
+
 {% extends "bootstrap/base.html" %}
 {% block title %}Results{% endblock %}
 
@@ -5,12 +44,13 @@
 
 
 <div class="container text-center">
- <a href="../">[RETURN]</a>
+        <a href="../">
+         <img src="{{url_for('static', filename='logo.png')}}"/>
+      </a>
  
 </div>
 
-{{ pagination.info }}
-{{ pagination.links }}
+<center> {{ pagination.links }} </center>
 
 
 <table class="table">
@@ -18,9 +58,8 @@
     <tr>
       <th>#</th>
       <th scope="col">Poster</th>
-      <th scope="col">Title</th>
-      <th scope="col">Year</th>
-      <th scope="col">Directors</th>
+      <th scope="col">Movie</th>
+      <th scope="col">Information</th>
       <th scope="col">URL</th>
     </tr>
   </thead>
@@ -30,10 +69,8 @@
       {% if i <= r_size - 1 %}
         <td>{{loop.index + pagination.skip }}</td>
         <td><img src={{movies[loop.index + pagination.skip -1].poster}} alt="" border=3 height=129 width=70></img></td>
-       <td>{{movies[loop.index + pagination.skip -1].title}}</td>
-        <td>{{movies[loop.index + pagination.skip -1].year}}</td>
-        <td>{{movies[loop.index + pagination.skip -1].director}}</td>
-        <td>{{i}}</td>
+       <td>{{movies[loop.index + pagination.skip -1].title}} <br> Released: {{movies[loop.index + pagination.skip -1].year}}</td>
+        <td>{{movies[loop.index + pagination.skip -1].plot}} <br> Directed by: {{movies[loop.index + pagination.skip -1].director}}</td>
         <td><a href={{movies[loop.index + pagination.skip -1].url}}>[IMDB]</a></td>
         {% endif %}
     </tr>
@@ -41,7 +78,8 @@
   </tbody>
 </table>
 
-{{ pagination.links }}
+<center> {{ pagination.info }} </center>
+<center> {{ pagination.links }} </center>
 
 {% endblock %}
 

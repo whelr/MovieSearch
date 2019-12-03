@@ -42,8 +42,7 @@ def results():
 	r_size = sum(1 for _ in movies)
 
 	page = request.args.get(get_page_parameter(), type=int, default=1)
-	pagination = Pagination(page=page, total=r_size, record_name='movies', per_page=10)
-
+	pagination = Pagination(page=page, total=r_size, record_name='movies', per_page=10, css_framework='bootstrap3')
 
 #	return render_template('results.html', query=(query, afterYear, beforeYear, withDir), results=zip(poster, url, titles, year, director))
 	return render_template('results.html',
@@ -57,12 +56,13 @@ def options():
 	return render_template('options.html')
 
 class Movie:
-    def __init__(self, poster, url, title, year, director):
+    def __init__(self, poster, url, title, year, director, plot):
         self.poster = poster
         self.url = url
         self.title = title
         self.year = year
         self.director = director
+        self.plot = plot
 
 class movieSearcher(object):
 
@@ -90,7 +90,7 @@ class movieSearcher(object):
 					pster = "https://lascrucesfilmfest.com/wp-content/uploads/2018/01/no-poster-available-737x1024.jpg"
 					if(r["poster"] != "N/A"):
 						pster = (r["poster"])
-					movies.append(Movie(pster, r["url"], r["title"], r["year"], r["director"]))
+					movies.append(Movie(pster, r["url"], r["title"], r["year"], r["director"], r["plot"]))
 			return movies
 
 	def index(self):
