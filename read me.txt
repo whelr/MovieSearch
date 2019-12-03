@@ -1,0 +1,11 @@
+Use python moviesearch.py (windows os) or python3 moviesearch.py (mac os) to compile.
+
+Notice:
+In file moviesearch.py:
+	At class movieSearcher(object), def index(self):
+	at line: with open('moviedata.csv') as csv_file:
+	add [encoding='utf-8'] in line 100 after csv file if appears UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 5291: character maps to <undefined>
+		with open('moviedata.csv', encoding='utf-8') as csv_file:
+
+
+ 
